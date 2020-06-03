@@ -5,9 +5,25 @@ namespace Delegate
     //Criação de um delegate que retorna um inteiro e recebe dois inteiros como parâmetro.
     public delegate int AritmeticOperations(int numberOne, int numberTwo);
 
+    public delegate void MulticasDelegate();
+
     class Program
     {
         static void Main(string[] args)
+        {
+            WithMulticast();
+        }
+
+        public static void WithMulticast()
+        {
+            MulticasDelegate multicasDelegate = AritmeticService.FirstMethod;
+            multicasDelegate += AritmeticService.ThirdMethod;
+            multicasDelegate += AritmeticService.SecondMethod;
+
+            multicasDelegate.Invoke();
+        }
+
+        public static void WithoutMulticast()
         {
             var numberOne = 7;
             var numberTwo = 3;
@@ -29,12 +45,12 @@ namespace Delegate
             AritmeticOperations subtractOperation = AritmeticService.SubtractTwoIntNumbers;
 
             //como eu tenho a referência da função, basta invocá-la passando seus parâmetros, se houver.
-            var resultSumOperation = sumOperation.Invoke(numberOne, numberTwo);
-            var resultSubtractOperation = subtractOperation.Invoke(numberOne, numberTwo);
+            var resultSumOperation = sumOperation(numberOne, numberTwo);
+            var resultSubtractOperation = subtractOperation(numberOne, numberTwo);
 
             Console.WriteLine($"A soma dos números com delegate é: {resultSumOperation}");
             Console.WriteLine($"A subtração dos números com delegate é: {resultSubtractOperation}");
-            
+
             Console.ReadLine();
         }
     }
